@@ -1,53 +1,76 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components'
-
+import UserNote from './UserNote';
+import URL from './URL';
+import MainPanel from './MainPanel';
 
 const StyledContainer = styled.div`
-  border: 1px solid grey;
+  border-radius: 5px;
   margin: 20px;
-
-`
-
-const Panel = styled.div`
-  border: 1px solid grey;
-  background-size: cover;
-  position: relative;
-`
-
-//const Title = styled.h2;
-const Title = styled.h4`
-  color: #fff;
-  font-weight: 300;
-  bottom: 0;
-  text-align: left;
-  padding-left: 5px;
-  background: rgb(0,0,0);
-  background: linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(255,255,255,1) 100%);
-  margin: 0;
-  margin-top: 15%;
-`
-const Date = styled.div;
-
-const UserNote = styled.p`
-  color: #fff;
-  font-weight: 300;
-  @media (max-width: 500px) {
-    font-size: 0.75rem;
-  }
+  background: white;
+  box-sizing: border-box;
 `
 
 
 
+class Card extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleMouseHover = this.handleMouseHover.bind(this);
+        this.handleMouseUnhover = this.handleMouseUnhover.bind(this);
+        this.state={
+            title:props.title,
+            usernote:props.usernote,
+            background:props.background,
+            hasbutton:props.hasbutton,
+            ishovering:false,
+            url:props.url,
+        }
+    }
 
-const Card = (props) => (
-  <StyledContainer>
-    <Panel style={{backgroundImage: `url(${props.background})` }}>
-      <Title>{props.title}</Title>
-    </Panel>
-    <Panel>
-      <UserNote>{props.usernote}</UserNote>
-    </Panel>
-  </StyledContainer>
-)
+    handleMouseHover() {
+      this.setState(this.toggleHoverState);
+    }
+    handleMouseUnhover() {
+      this.setState(this.toggleHoverState);
+    }
+
+    toggleHoverState(state) {
+      return {
+        ishovering: !this.state.ishovering,
+      };
+    }
+
+    renderUserNote() {
+      if (this.state.ishovering || this.state.usernote) {
+        return (<UserNote usernote={this.props.usernote} className={"displayed"} />);
+      }else {
+        return;
+      }
+    }
+
+    renderURL() {
+      if (this.state.ishovering && this.props.url) {
+        return (<URL url={this.props.url} className={"displayed"} />);
+      }else {
+        return;
+      }
+    }
+    
+    render(){
+        return(
+            <StyledContainer style={{marginLeft: `${this.props.indented}px` }}
+                  onMouseEnter={this.handleMouseHover}
+                  onMouseLeave={this.handleMouseUnhover}>
+                  <MainPanel background={this.props.background}
+                          title={this.props.title} 
+                          hasbutton={this.props.hasbutton}
+                          contenttext={this.props.contenttext}/>
+                  {this.renderURL()}
+                  {this.renderUserNote()}
+            </StyledContainer>
+        )
+    }
+}
 
 export default Card

@@ -1,54 +1,58 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import myData from './lmF1ei63zjlOvYbSRIdU.json';
-import Card from './Card';
-// import './Parent';
-
-// function renderCard(cardData){
-//   if(typeof(cardData.title) === "undefined"){
-//     // The property DOESN'T exists
-//   }else{
-//     return (<Card title=cardData.title/>);
-//   }
-// }
+import CardGroup from './CardGroup';
 
 
-function renderCards(){
 
-  console.log("renderCards called");
+function renderCardGroups(){
+  //first we'll take our data and order it by root cards and aggregate the children
+  //in an object keyed with the id of the corresponding parent
   var rootList = [];
+  var rootChildren = {};
   var i;
   for (i=0; i<myData.length; i++) {
-    if (myData[i].title != "") {
+    if (myData[i].edge.type === 0) {
       rootList.push(myData[i]);
+    }else if (myData[i].edge.type === 2){
+      if (myData[i].edge.parent in rootChildren){
+        rootChildren[myData[i].edge.parent].push(myData[i]);
+      }else{
+        rootChildren[myData[i].edge.parent] = [myData[i]];
+      }
     }
   }
 
-  console.log(rootList.map);
-  return (rootList.map(item=>(
-    <Card title={item.title}
-          usernote={item.userNote}
-          background={item.content.screenshot}
-          />)));
+
+  const elements = []
+
+  //here I sort the rootList so the it is descending order of the edge.order value
+  //we'll also populate elements with a CardGroup component with the ordered data
+  rootList.sort(function(a,b){return b.edge.order-a.edge.order});
+  var j;
+  for (j=0; j<rootList.length; j++) {
+    rootChildren[rootList[j].id].sort(function(a,b){return b.edge.order-a.edge.order})
+    elements.push(<CardGroup parent={rootList[j]}
+                            children={rootChildren[rootList[j].id]} />)
+  }
+
+  return (
+    <div>
+      {elements}
+    </div>
+  )
 }
 
 
 function App() {
-   // var request = new XMLHttpRequest();
-   // request.open("GET", "../public/lmF1ei63zjlOvYbSRIdU.json", false);
-   // request.send(null)
-   // var my_JSON_object = JSON.parse(request.responseText);
-   // alert(my_JSON_object);
   
   return (
 
     <div className="App">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <header className="App-header">
-        <div>
-            {renderCards()}
-        </div>
+         {renderCardGroups()}
       </header>
     </div>
   );
