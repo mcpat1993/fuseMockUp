@@ -35,7 +35,7 @@ class CardGroup extends React.Component {
     //down of children cards
     renderParentCard() {
       return (
-        <div>
+        <div style={{marginTop:  `0`}}>
           <StyledButton variant="contained" 
             size="small"
             onClick={this.handleMouseClick}> > ______  

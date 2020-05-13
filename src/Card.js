@@ -8,7 +8,6 @@ const StyledContainer = styled.div`
   border-radius: 5px;
   margin: 20px;
   background: white;
-  box-sizing: border-box;
 `
 
 
@@ -60,8 +59,8 @@ class Card extends React.Component {
     render(){
         return(
             <StyledContainer style={{marginLeft: `${this.props.indented}px` }}
-                  onMouseEnter={this.handleMouseHover}
-                  onMouseLeave={this.handleMouseUnhover}>
+                            onMouseEnter={this.handleMouseHover}
+                            onMouseLeave={this.handleMouseUnhover}>
                   <MainPanel background={this.props.background}
                           title={this.props.title} 
                           hasbutton={this.props.hasbutton}
