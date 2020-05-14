@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button';
 import Card from './Card';
+import { Transition, CSSTransition } from "react-transition-group";
 
-
+const StyledGroup = styled.div`
+  width: 100%;
+`
 
 const StyledButton = styled(Button)`
   float: left;
   border-radius: 5px;
-  margin-top: 3px;
 `
 
 
@@ -78,10 +80,10 @@ class CardGroup extends React.Component {
     
     render(){
         return(
-            <div>
+            <StyledGroup>
               {this.renderParentCard()}
               {this.renderChildCards()}
-            </div>
+            </StyledGroup>
         )
     }
 }

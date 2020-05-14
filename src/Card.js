@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import UserNote from './UserNote';
 import URL from './URL';
 import MainPanel from './MainPanel';
+import './App.css';
 
 const StyledContainer = styled.div`
   border-radius: 5px;
@@ -22,16 +23,16 @@ class Card extends React.Component {
             usernote:props.usernote,
             background:props.background,
             hasbutton:props.hasbutton,
-            ishovering:false,
+            ishovering:true,
             url:props.url,
         }
     }
 
     handleMouseHover() {
-      this.setState(this.toggleHoverState);
+      //this.setState(this.toggleHoverState);
     }
     handleMouseUnhover() {
-      this.setState(this.toggleHoverState);
+      //this.setState(this.toggleHoverState);
     }
 
     toggleHoverState(state) {
